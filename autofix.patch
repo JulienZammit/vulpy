@@ -1,0 +1,15 @@
+diff --git a/good/libapi.py b/good/libapi.py
+--- a/good/libapi.py
++++ b/good/libapi.py
+@@ -5,9 +5,9 @@
+ import jwt
+ from time import time
+ 
+-from pathlib import Path
++import os
+ 
+-secret = 'MYSUPERSECRETKEY'
++secret = os.getenv('JWT_SECRET', 'MYSUPERSECRETKEY')
+ not_after = 60 # 1 minute
+ 
+ def keygen(username, password=None, login=True):
