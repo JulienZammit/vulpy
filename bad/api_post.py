@@ -27,7 +27,7 @@ def cmd_api_client(message):
             outfile.write(api_key)
 
     api_key = api_key_file.open().read()
-    r = requests.post('http://127.0.1.1:5000/api/post', json={'text':message}, headers={'X-APIKEY': api_key})
+    r = requests.post('https://127.0.1.1:5000/api/post', json={'text':message}, headers={'X-APIKEY': api_key})
     print(r.text)
 
 
