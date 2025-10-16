@@ -1,0 +1,12 @@
+diff --git a/bad/templates/csp.html b/bad/templates/csp.html
+--- a/bad/templates/csp.html
++++ b/bad/templates/csp.html
+@@ -26,7 +26,7 @@
+         </tr>
+         <tr>
+             <td>External JavaScript</td>
+-            <td><script src="https://apis.google.com/js/platform.js" async defer></script><g:plusone></g:plusone></td>
++            <td><script src="https://apis.google.com/js/platform.js" async defer integrity="sha384-+6O/n2aGB73gZdG2OPmAUJAPaR44bZwQ+ZX6gErbUDnARCYvfmjZmtwchlVLyZjw" crossorigin="anonymous"></script><g:plusone></g:plusone></td>
+         </tr>
+     </table>
+   </div>
