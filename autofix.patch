@@ -1,0 +1,12 @@
+diff --git a/bad/libuser.py b/bad/libuser.py
+--- a/bad/libuser.py
++++ b/bad/libuser.py
+@@ -50,7 +50,7 @@
+     conn.row_factory = sqlite3.Row
+     c = conn.cursor()
+ 
+-    c.execute("UPDATE users SET password = '{}' WHERE username = '{}'".format(password, username))
++    c.execute("UPDATE users SET password = :password WHERE username = :username", {'password': password, 'username': username})
+     conn.commit()
+ 
+     return True
