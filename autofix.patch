@@ -1,0 +1,43 @@
+diff --git a/good/vulpy.py b/good/vulpy.py
+--- a/good/vulpy.py
++++ b/good/vulpy.py
+@@ -50,5 +50,5 @@
+         response.headers['Content-Security-Policy'] = csp
+     return response
+ 
+-app.run(debug=True, host='127.0.1.1', port=5001, extra_files='csp.txt')
++app.run(debug=False, host='127.0.1.1', port=5001, extra_files='csp.txt')
+ 
+diff --git a/utils/aes-decrypt.py b/utils/aes-decrypt.py
+--- a/utils/aes-decrypt.py
++++ b/utils/aes-decrypt.py
+@@ -21,7 +21,7 @@
+     digest.update(key.encode())
+     key_digest = digest.finalize()
+ 
+-    cipher = Cipher(algorithms.AES(key_digest), modes.CFB(unhexlify(iv)), backend=default_backend())
++    cipher = Cipher(algorithms.AES(key_digest), modes.GCM(unhexlify(iv)), backend=default_backend())
+     decryptor = cipher.decryptor()
+     plain = decryptor.update(unhexlify(message)) + decryptor.finalize()
+ 
+diff --git a/good/templates/csp.html b/good/templates/csp.html
+--- a/good/templates/csp.html
++++ b/good/templates/csp.html
+@@ -26,7 +26,7 @@
+         </tr>
+         <tr>
+             <td>External JavaScript</td>
+-            <td><script src="https://apis.google.com/js/platform.js" async defer></script><g:plusone></g:plusone></td>
++            <td><script src="https://apis.google.com/js/platform.js" async defer integrity="sha384-EXAMPLE_HASH" crossorigin="anonymous"></script><g:plusone></g:plusone></td>
+         </tr>
+     </table>
+   </div>
+diff --git a/bad/vulpy-ssl.py b/bad/vulpy-ssl.py
+--- a/bad/vulpy-ssl.py
++++ b/bad/vulpy-ssl.py
+@@ -26,4 +26,4 @@
+ def before_request():
+     g.session = libsession.load(request)
+ 
+-app.run(debug=True, host='127.0.1.1', ssl_context=('/tmp/acme.cert', '/tmp/acme.key'))
++app.run(debug=False, host='127.0.1.1', ssl_context=('/tmp/acme.cert', '/tmp/acme.key'))
