@@ -13,7 +13,7 @@ def cmd_api_client(message):
         username = click.prompt('Username')
         password = click.prompt('Password', hide_input=True)
 
-        r = requests.post('http://127.0.1.1:5000/api/key', json={'username':username, 'password':password})
+        r = requests.post('https://127.0.1.1:5000/api/key', json={'username':username, 'password':password})
 
         if r.status_code != 200:
             click.echo('Invalid authentication or other error ocurred. Status code: {}'.format(r.status_code))
@@ -27,7 +27,7 @@ def cmd_api_client(message):
             outfile.write(api_key)
 
     api_key = api_key_file.open().read()
-    r = requests.post('http://127.0.1.1:5000/api/post', json={'text':message}, headers={'X-APIKEY': api_key})
+    r = requests.post('https://127.0.1.1:5000/api/post', json={'text':message}, headers={'X-APIKEY': api_key})
     print(r.text)
 
 

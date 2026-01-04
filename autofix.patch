@@ -1,0 +1,64 @@
+diff --git a/good/vulpy-ssl.py b/good/vulpy-ssl.py
+--- a/good/vulpy-ssl.py
++++ b/good/vulpy-ssl.py
+@@ -26,4 +26,4 @@
+ def before_request():
+     g.session = libsession.load(request)
+ 
+-app.run(debug=True, host='127.0.1.1', ssl_context=('/tmp/acme.cert', '/tmp/acme.key'))
++app.run(debug=False, host='127.0.1.1', ssl_context=('/tmp/acme.cert', '/tmp/acme.key'))
+diff --git a/good/vulpy.py b/good/vulpy.py
+--- a/good/vulpy.py
++++ b/good/vulpy.py
+@@ -50,5 +50,5 @@
+         response.headers['Content-Security-Policy'] = csp
+     return response
+ 
+-app.run(debug=True, host='127.0.1.1', port=5001, extra_files='csp.txt')
++app.run(debug=False, host='127.0.1.1', port=5001, extra_files='csp.txt')
+ 
+diff --git a/bad/vulpy-ssl.py b/bad/vulpy-ssl.py
+--- a/bad/vulpy-ssl.py
++++ b/bad/vulpy-ssl.py
+@@ -26,4 +26,4 @@
+ def before_request():
+     g.session = libsession.load(request)
+ 
+-app.run(debug=True, host='127.0.1.1', ssl_context=('/tmp/acme.cert', '/tmp/acme.key'))
++app.run(debug=False, host='127.0.1.1', ssl_context=('/tmp/acme.cert', '/tmp/acme.key'))
+diff --git a/utils/aes-encrypt.py b/utils/aes-encrypt.py
+--- a/utils/aes-encrypt.py
++++ b/utils/aes-encrypt.py
+@@ -25,7 +25,7 @@
+     key_digest = digest.finalize()
+ 
+ 
+-    cipher = Cipher(algorithms.AES(key_digest), modes.CFB(iv), backend=default_backend())
++    cipher = Cipher(algorithms.AES(key_digest), modes.GCM(iv), backend=default_backend())
+     encryptor = cipher.encryptor()
+     encrypted = encryptor.update(message.encode()) + encryptor.finalize()
+ 
+diff --git a/bad/api_post.py b/bad/api_post.py
+--- a/bad/api_post.py
++++ b/bad/api_post.py
+@@ -27,7 +27,7 @@
+             outfile.write(api_key)
+ 
+     api_key = api_key_file.open().read()
+-    r = requests.post('http://127.0.1.1:5000/api/post', json={'text':message}, headers={'X-APIKEY': api_key})
++    r = requests.post('https://127.0.1.1:5000/api/post', json={'text':message}, headers={'X-APIKEY': api_key})
+     print(r.text)
+ 
+ 
+diff --git a/bad/api_post.py b/bad/api_post.py
+--- a/bad/api_post.py
++++ b/bad/api_post.py
+@@ -13,7 +13,7 @@
+         username = click.prompt('Username')
+         password = click.prompt('Password', hide_input=True)
+ 
+-        r = requests.post('http://127.0.1.1:5000/api/key', json={'username':username, 'password':password})
++        r = requests.post('https://127.0.1.1:5000/api/key', json={'username':username, 'password':password})
+ 
+         if r.status_code != 200:
+             click.echo('Invalid authentication or other error ocurred. Status code: {}'.format(r.status_code))
