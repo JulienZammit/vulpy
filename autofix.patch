@@ -1,0 +1,21 @@
+diff --git a/good/vulpy-ssl.py b/good/vulpy-ssl.py
+--- a/good/vulpy-ssl.py
++++ b/good/vulpy-ssl.py
+@@ -26,4 +26,4 @@
+ def before_request():
+     g.session = libsession.load(request)
+ 
+-app.run(debug=True, host='127.0.1.1', ssl_context=('/tmp/acme.cert', '/tmp/acme.key'))
++app.run(debug=False, host='127.0.1.1', ssl_context=('/tmp/acme.cert', '/tmp/acme.key'))
+diff --git a/utils/aes-decrypt.py b/utils/aes-decrypt.py
+--- a/utils/aes-decrypt.py
++++ b/utils/aes-decrypt.py
+@@ -21,7 +21,7 @@
+     digest.update(key.encode())
+     key_digest = digest.finalize()
+ 
+-    cipher = Cipher(algorithms.AES(key_digest), modes.CFB(unhexlify(iv)), backend=default_backend())
++    cipher = Cipher(algorithms.AES(key_digest), modes.GCM(unhexlify(iv)), backend=default_backend())
+     decryptor = cipher.decryptor()
+     plain = decryptor.update(unhexlify(message)) + decryptor.finalize()
+ 
