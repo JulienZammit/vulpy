@@ -1,0 +1,33 @@
+diff --git a/utils/aes-encrypt.py b/utils/aes-encrypt.py
+--- a/utils/aes-encrypt.py
++++ b/utils/aes-encrypt.py
+@@ -25,7 +25,7 @@
+     key_digest = digest.finalize()
+ 
+ 
+-    cipher = Cipher(algorithms.AES(key_digest), modes.CFB(iv), backend=default_backend())
++    cipher = Cipher(algorithms.AES(key_digest), modes.GCM(iv), backend=default_backend())
+     encryptor = cipher.encryptor()
+     encrypted = encryptor.update(message.encode()) + encryptor.finalize()
+ 
+diff --git a/bad/templates/csp.html b/bad/templates/csp.html
+--- a/bad/templates/csp.html
++++ b/bad/templates/csp.html
+@@ -26,7 +26,7 @@
+         </tr>
+         <tr>
+             <td>External JavaScript</td>
+-            <td><script src="https://apis.google.com/js/platform.js" async defer></script><g:plusone></g:plusone></td>
++            <td><script src="https://apis.google.com/js/platform.js" async defer integrity="sha384-EXAMPLE_HASH" crossorigin="anonymous"></script><g:plusone></g:plusone></td>
+         </tr>
+     </table>
+   </div>
+diff --git a/good/vulpy-ssl.py b/good/vulpy-ssl.py
+--- a/good/vulpy-ssl.py
++++ b/good/vulpy-ssl.py
+@@ -26,4 +26,4 @@
+ def before_request():
+     g.session = libsession.load(request)
+ 
+-app.run(debug=True, host='127.0.1.1', ssl_context=('/tmp/acme.cert', '/tmp/acme.key'))
++app.run(debug=False, host='127.0.1.1', ssl_context=('/tmp/acme.cert', '/tmp/acme.key'))

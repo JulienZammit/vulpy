@@ -25,7 +25,7 @@ def aes_encrypt(key, message):
     key_digest = digest.finalize()
 
 
-    cipher = Cipher(algorithms.AES(key_digest), modes.CFB(iv), backend=default_backend())
+    cipher = Cipher(algorithms.AES(key_digest), modes.GCM(iv), backend=default_backend())
     encryptor = cipher.encryptor()
     encrypted = encryptor.update(message.encode()) + encryptor.finalize()
 
