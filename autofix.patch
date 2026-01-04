@@ -1,0 +1,36 @@
+diff --git a/bad/api_list.py b/bad/api_list.py
+--- a/bad/api_list.py
++++ b/bad/api_list.py
+@@ -7,7 +7,7 @@
+ @click.argument('username')
+ def cmd_api_client(username):
+ 
+-    r = requests.get('http://127.0.1.1:5000/api/post/{}'.format(username))
++    r = requests.get('https://127.0.1.1:5000/api/post/{}'.format(username))
+     if r.status_code != 200:
+         click.echo('Some error ocurred. Status Code: {}'.format(r.status_code))
+         print(r.text)
+diff --git a/good/vulpy-ssl.py b/good/vulpy-ssl.py
+--- a/good/vulpy-ssl.py
++++ b/good/vulpy-ssl.py
+@@ -10,7 +10,7 @@
+ import libsession
+ 
+ app = Flask('vulpy')
+-app.config['SECRET_KEY'] = 'aaaaaaa'
++app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY', 'aaaaaaa')
+ 
+ app.register_blueprint(mod_hello, url_prefix='/hello')
+ app.register_blueprint(mod_user, url_prefix='/user')
+diff --git a/bad/vulpy-ssl.py b/bad/vulpy-ssl.py
+--- a/bad/vulpy-ssl.py
++++ b/bad/vulpy-ssl.py
+@@ -10,7 +10,7 @@
+ import libsession
+ 
+ app = Flask('vulpy')
+-app.config['SECRET_KEY'] = 'aaaaaaa'
++app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY', 'aaaaaaa')
+ 
+ app.register_blueprint(mod_hello, url_prefix='/hello')
+ app.register_blueprint(mod_user, url_prefix='/user')
